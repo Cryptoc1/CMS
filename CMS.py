@@ -43,7 +43,7 @@ class CMS:
             cur = con.cursor()
             cur.execute("SELECT * FROM Posts")
 
-            res = cur.fetchall()
+            res = cur.fetchone()
 
             return res
 
@@ -96,3 +96,6 @@ class CMS:
 
     def version():
         print ver
+
+class Post(str):
+    # TODO : Construct Object from string returned from Database

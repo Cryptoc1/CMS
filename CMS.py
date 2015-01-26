@@ -3,6 +3,7 @@ import sys
 
 version = "0.0.0b"
 error_message = "There was an error when attempting to process your request. System returned: "
+
 def get_all_posts():
     try:
         con = mdb.connect("localhost", "test", "test123", "CMS")

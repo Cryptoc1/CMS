@@ -1,49 +1,98 @@
+#!/usr/bin/env python
 import MySQLdb as mdb
 import sys
 
-version = "0.0.0b"
+ver = "0.0.0b"
 error_message = "There was an error when attempting to process your request. System returned: "
 
-def get_all_posts():
-    try:
-        con = mdb.connect("localhost", "test", "test123", "CMS")
+class CMS:
+    def __init__(self, hostname, username, password, db):
+        self.hostname = hostname
+        self.username = username
+        self.password = password
+        self.db = db
 
-        cur = con.cursor()
-        cur.execute("SELECT * FROM Posts")
+    def set_hostname(self, hostname):
+        self.hostname = hostname
 
-        res = cur.fetchall()
+    def get_hostname(self):
+        return self.hostname
 
-        return res
+    def set_username(self, username):
+        self.username = username
 
-    except mdb.Error, e:
-        print error_message . e
-        sys.exit(1)
+    def get_username(self):
+        return self.username
 
-    finally:
-        if con:
-            con.close()
+    def set_pasword(self, password):
+        self.password = password
 
-def new_post():
-    try:
-        con = mdb.connect("localhost", "test", "test123", "CMS")
+    def get_password(self):
+        return self.password
 
-        cur = con.cursor()
-        cur.execute("")
+    def set_db(self, db):
+        self.db = db
 
-        ''' 
-        if POST successful:
-            print success message
-        elif:
-            print error message
-        '''
+    def get_db(self):
+        return self.db
 
-    except mdb.Error, e:
-        print error_message . e
-        sys.exit(1)
+    def get_all_posts(self):
+        try:
+            con = mdb.connect(self.hostname, self.username, self.password, self.db)
 
-    finally:
-        if con:
-            con.close()
+            cur = con.cursor()
+            cur.execute("SELECT * FROM Posts")
 
-def version():
-    print version
+            res = cur.fetchall()
+
+            return res
+
+        except mdb.Error, e:
+            print error_message + e
+            sys.exit(1)
+
+        finally:
+            if con:
+                con.close()
+
+    def get_post(self, pid, title, author):
+        if pid:
+            req = "SELECT * FROM Posts WHERE pid=" + pid
+        elif title:
+            req = "SELECT * FROM Posts WHERE title=" + title
+        elif author:
+            req = "SELECT * FROM Posts WHERE author=" + author
+
+        try:
+            con = mdb.connect(self.hostname,  self.username, self.password, self.db)
+        
+        except mdb.Error, e:
+            print error_message + e
+
+        finally:
+            if con:
+                con.close()
+    def new_post():
+        try:
+            con = mdb.connect(self.hostname, self.username, self.password, self.db)
+
+            cur = con.cursor()
+            cur.execute("")
+
+            ''' 
+            if POST successful:
+                print success message
+            elif:
+                print error message
+            '''
+
+        except mdb.Error, e:
+            print error_message + e
+            sys.exit(1)
+
+        finally:
+            if con:
+                con.close()
+
+    def version():
+        print ver

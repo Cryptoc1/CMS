@@ -1,3 +1,6 @@
-import CMS
+#!/usr/bin/env python
+from CMS import CMS
 
-CMS.version()
+manager = CMS(hostname="localhost", username="test", password="test123", db="CMS")
+
+print manager.get_all_posts()

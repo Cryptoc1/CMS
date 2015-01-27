@@ -135,12 +135,14 @@ class CMS:
         if author:
             req = "SELECT * FROM Posts WHERE author=\"" + author + "\";"
             try:
-                con = mdb.connect(self.hostname, self.username, slef.password, self.db)
+                con = mdb.connect(self.hostname, self.username, self.password, self.db)
 
                 cur = con.cursor()
                 cur.execute(req)
 
                 res = cur.fetchone()
+
+                return res
 
             except mdb.Error, e:
                 print error_message + str(e)

@@ -112,6 +112,7 @@ commands = {
         "get all": get_all,
         "new post": new_post
         }
+
 def organize_post_data(post_data):
     post_as_string = ""
     print tchar +  "The content property is returned as inline markdown,\n" + tchar + "meaning escape characters (\\n, \\t, etc.) will be processed."

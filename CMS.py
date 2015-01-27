@@ -66,7 +66,7 @@ class CMS:
 
             res = cur.fetchall()
             if res == None:
-                print error_message + no_res
+                return error_message + no_res
             else:
                 posts = []
                 for i in res:
@@ -96,7 +96,7 @@ class CMS:
 
                 res = cur.fetchone()
                 if res == None:
-                    print error_message + no_res
+                    return error_message + no_res
                 else:
                     p = {}
                     p["pid"] = res[0]
@@ -126,7 +126,7 @@ class CMS:
 
                 res = cur.fetchall()
                 if res == None:
-                    print error_mesage + no_res
+                    return error_mesage + no_res
                 else:
                     posts = []
                     for i in res:
@@ -160,7 +160,19 @@ class CMS:
 
                 res = cur.fetchall()
 
-                return res
+                if res == None:
+                    return error_message + no_res
+                else:
+                    posts = []
+                    for i in res:
+                        p = {}
+                        p["pid"] = i[0]
+                        p["title"] = i[1]
+                        p["author"] = i[2]
+                        p["content"] = i[3]
+                        posts.append(p)
+                    
+                    return posts
 
             except mdb.Error, e:
                 print error_message + str(e)

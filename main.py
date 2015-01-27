@@ -27,6 +27,7 @@ def get_post():
         pid = int(raw_input(tchar))
         print working
         post = manager.get_post_by_id(pid)
+        # TODO: Create function to format res
         print tchar + "{"
         print tchar + "\t \"pid\": \"" + str(post["pid"]) + "\""
         print tchar + "\t \"title\": \"" + post["title"] + "\""
@@ -39,6 +40,7 @@ def get_post():
         title = str(raw_input(tchar))
         print working
         posts = manager.get_posts_by_title(title)
+        # TODO: Format res
         print tchar + str(posts)
         main()
     if method == "author":
@@ -46,6 +48,7 @@ def get_post():
         author = str(raw_input(tchar))
         print working
         posts = manager.get_posts_by_author(author)
+        # TODO: Format res
         print tchar + str(posts)
         main()
 

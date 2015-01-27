@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from CMS import CMS
-import json
 import sys
 
 manager = CMS(hostname="localhost", username="test", password="test123", db="CMS")

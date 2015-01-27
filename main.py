@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from CMS import CMS
-from CMS import Post
 
-manager = CMS(hostname="localhost", username="test", password="test123", db="CMS")
+manager = CMS(hostname="localhost", username="test", password="test123", db="")
+manager.set_db("CMStest")
 
-print type(manager.get_all_posts())
+# print manager."method"

@@ -289,6 +289,7 @@ class CMS:
                 cur.execute(req)
                 con.commit()
 
+                cur.execute("ALTER TABLE Posts AUTO_INCREMENT=1;")
                 return True
             
             except mdb.IntegrityError or mdb.Error, e:

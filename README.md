@@ -12,10 +12,10 @@ CMS was a project I created when learning MySQL and building data systems
 * Minimal dependencies (5) that are installed by default
 
 ## Testing and Usage
-CMS was built on Ubuntu 14.04 and hasn't been used or tested on any other systems. System functions (`os.system('clear')`) swithin the source are written for Linux.
+CMS was built on Ubuntu 14.04 and hasn't been used or tested on any other systems. System functions (`os.system('clear')`) within the source were written with Linux in mind.
 
 ## What stage is development in?
 CMS is in development, but won't be released for 'professional use'.
 
 #### Notice
-This project was created with no license in mind by Samuel Steele, [Cryptocosm Developers](http:///www.cryptocosm.x10.bz)
+This project was created with no license in mind by Samuel Steele, [Cryptocosm Developers](http:///www.cryptocosm.x10.bz).

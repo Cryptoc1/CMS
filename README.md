@@ -18,4 +18,4 @@ CMS was built on Ubuntu 14.04 and hasn't been used or tested on any other system
 CMS is in development, but won't be released for 'professional use'.
 
 #### Notice
-This project was created with no license in mind by Samuel Steele, [Cryptocosm Developers](http:///www.cryptocosm.x10.bz).
+This project was created with a MIT license by Samuel Steele, [Cryptocosm Developers](http:///www.cryptocosm.x10.bz).

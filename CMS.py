@@ -46,11 +46,8 @@ class CMS:
             con = self.connect()
             cur = con.cursor()
             cur.execute("SELECT COUNT(*) FROM Posts;")
-
             res = cur.fetchone()
-
             return res[0]
-
         except mdb.Error, e:
             print error_message + str(e)
             sys.exit(1)
@@ -63,7 +60,6 @@ class CMS:
             con = self.connect()
             cur = con.cursor()
             cur.execute("SELECT * FROM Posts;")
-
             res = cur.fetchall()
             if res == None:
                 return error_message + no_res
@@ -76,9 +72,7 @@ class CMS:
                     p["author"] = i[2]
                     p["content"] = i[3]
                     posts.append(p)
-                
                 return posts
-        
         except mdb.Error, e:
             print error_message + str(e)
             sys.exit(1)
@@ -93,7 +87,6 @@ class CMS:
                 con = self.connect()
                 cur = con.cursor()
                 cur.execute(req)
-
                 res = cur.fetchone()
                 if res == None:
                     return error_message + no_res
@@ -103,9 +96,7 @@ class CMS:
                     p["title"] = res[1]
                     p["author"] = res[2]
                     p["content"] = res[3]
-
                     return p
-
             except mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
@@ -123,7 +114,6 @@ class CMS:
                 con = self.connect()
                 cur = con.cursor()
                 cur.execute(req)
-
                 res = cur.fetchall()
                 if res == None:
                     return error_mesage + no_res
@@ -136,13 +126,10 @@ class CMS:
                         p["author"] = i[2]
                         p["content"] = i[3]
                         posts.append(p)
-
                     return posts
-
             except mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
-            
             finally:
                 if con:
                     con.close()
@@ -157,9 +144,7 @@ class CMS:
                 con = self.connect()
                 cur = con.cursor()
                 cur.execute(req)
-
                 res = cur.fetchall()
-
                 if res == None:
                     return error_message + no_res
                 else:
@@ -171,9 +156,7 @@ class CMS:
                         p["author"] = i[2]
                         p["content"] = i[3]
                         posts.append(p)
-                    
                     return posts
-
             except mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
@@ -192,14 +175,11 @@ class CMS:
                 cur = con.cursor()
                 cur.execute(req)
                 con.commit()
-
                 return True
-
             except mdb.IntegrityError or mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
                 return False
-
             finally:
                 if con:
                     con.close()
@@ -216,14 +196,11 @@ class CMS:
                 cur = con.cursor()
                 cur.execute(req)
                 con.commit()
-
                 return True
-
             except mdb.IntegrityError or mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
                 return False
-
             finally:
                 if con:
                     con.close()
@@ -240,14 +217,11 @@ class CMS:
                 cur = con.cursor()
                 cur.execute(req)
                 con.commit()
-
                 return True
-            
             except mdb.IntegrityError or mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
                 return False
-
             finally:
                 if con:
                     con.close()
@@ -264,14 +238,11 @@ class CMS:
                 cur = con.cursor()
                 cur.execute(req)
                 con.commit()
-
                 return True
-            
             except mdb.IntegrityError or mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
                 return False
-
             finally:
                 if con:
                     con.close()
@@ -288,15 +259,12 @@ class CMS:
                 cur = con.cursor()
                 cur.execute(req)
                 con.commit()
-
                 cur.execute("ALTER TABLE Posts AUTO_INCREMENT=1;")
                 return True
-            
             except mdb.IntegrityError or mdb.Error, e:
                 print error_message + str(e)
                 sys.exit(1)
                 return False
-
             finally:
                 if con:
                     con.close()

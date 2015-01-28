@@ -121,7 +121,6 @@ def new_post():
             print tchar + "Okay, exiting \"new post\" command."
         else:
             print tchar + "There was an error... Exiting \"new post\" command."
-
     elif choice == "n":
         print tchar + "Okay, exiting \"new post\" command."
         main()
@@ -226,7 +225,6 @@ def delete_post():
         else:
             print tchar + "There was an error... Exiting \"delete post\" command."
             main()
-
     elif choice == "n":
         print tchar + "Okay, exiting \"delete post\" command."
         main()
@@ -254,7 +252,6 @@ def organize_post_data(post_data):
             post_as_string += "{\n\t \"pid\": " + str(i["pid"]) + "\n\t \"title\": \"" + i["title"] + "\"\n\t \"author\": \"" + i["author"] + "\"\n\t \"content\": \"" + i["content"]+ "\"\n}"
     else:
         post_as_string = "{\n\t \"pid\": " + str(post_data["pid"]) + "\n\t \"title\": \"" + post_data["title"] + "\"\n\t \"author\": \"" + post_data["author"] + "\"\n\t \"content\": \"" + post_data["content"]+ "\"\n}"
-
     return post_as_string
 
 

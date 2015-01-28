@@ -1,8 +1,8 @@
 # CMS
-A very small 'Content Management System' written in Python
+A very small 'Content Management System' written in Python.
 
 ## What is the purpose of CMS?
-CMS was a project I created when learning MySQL and building data systems
+CMS was a project I created when learning MySQL and building data systems.
 
 ## Features
 * CLI for interacting with Posts table in customizable Database

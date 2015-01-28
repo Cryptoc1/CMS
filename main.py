@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from CMS import CMS
 import sys
+import os
 
 manager = CMS(hostname="localhost", username="test", password="test123", db="CMS")
 
@@ -12,9 +13,29 @@ def verify_input(cmd):
     if new_cmd == "exit":
         print tchar + "Exiting CMS..."
         sys.exit()
+        os.system("clear")
     elif new_cmd == "help":
-        # TODO: make help pages
+        print tchar + "\n" + tchar + "clear :: Clear the screen\n" + tchar + "exit :: Exit the program\n"  + tchar + "help :: Display this help text"
+        print tchar + "get <arg>\n" + tchar + "\tall :: Display all entries\n" + tchar + "\tpost :: Display entry that matches specified Selection Query"
+        print tchar + "new <arg>\n" + tchar + "\tpost :: Create a new entry"
+        print tchar + "update <arg>\n" + tchar + "\tpost :: Update specified feilds of an entry"
+        print tchar + "delete <arg>\n" + tchar + "\tpost :: Delete an entry"
         print tchar
+        main()
+    elif new_cmd == "clear":
+        os.system("clear")
+        main()
+    elif new_cmd == "get":
+        print tchar + "Get what?\n" + tchar + "\tget <arg>\n" + tchar + "\t\tall :: Display all entries\n" + tchar + "\t\tpost :: Display entry that matches specified Selection Query"
+        main()
+    elif new_cmd == "new":
+        print tchar + "New what?\n" + tchar + "\tnew <arg>\n" + tchar + "\t\tpost :: Create a new entry"
+        main()
+    elif new_cmd == "update":
+        print tchar + "Update what?\n" + tchar + "\tupdate <arg>\n" + tchar + "\t\tpost :: Update specified feilds of an entry"
+        main()
+    elif new_cmd == "delete":
+        print tchar + "Delete what?\n" + tchar + "\tdelete <arg>\n" + tchar + "\t\tpost :: Deletes an entry"
         main()
     else:
         if new_cmd not in commands:
@@ -60,7 +81,7 @@ def get_all():
     if count == 1:
         print tchar + "There is " + str(count) + " total entry.\n" + tchar + "Are you sure you want to list them all? (y/n)"
     else:
-        print tchar + "There is " + str(count) + " total entries\n" + tchar + "Are you sure you want to list them all? (y/n)"
+        print tchar + "There are " + str(count) + " total entries\n" + tchar + "Are you sure you want to list them all? (y/n)"
     choice = raw_input(tchar).lower()
     if choice == "y":
         print working
@@ -81,10 +102,25 @@ def new_post():
         title = raw_input(tchar + "\ttitle: ")
         print tchar + "Enter author of this Post"
         author = raw_input(tchar + "\tauthor: ")
-        print tchar + "Enter absolute path to markdown file"
-        content = raw_input(tchar + "\tpath to md: ")
-        
-        # TODO: Load text from md file
+        print tchar + "Enter path to markdown file"
+        path = raw_input(tchar + "\tpath to md: ")
+        f = open(path, 'r')
+        content = f.read()
+        print tchar + "You are about to create the post " + title + ". \n Continue? (y/n)"
+        choice = raw_input(tchar).lower()
+        if choice == "y":
+            print working
+            if manager.new_post(title, author, content):
+                f.close()
+                print tchar + "New Post created. To view it, use \"get post\" with pid: " + str(manager.get_entry_count())
+                main()
+            else:
+                print tchar + "Failed to create new post."
+                main()
+        elif choice == "n":
+            print tchar + "Okay, exiting \"new post\" command."
+        else:
+            print tchar + "There was an error... Exiting \"new post\" command."
 
     elif choice == "n":
         print tchar + "Okay, exiting \"new post\" command."
@@ -93,15 +129,110 @@ def new_post():
         print tchar + "There was an error... Exiting \"new post\" command."
         main()
 
-# TODO: create update post function
-'''
-def update_title():
+def update_post():
+    print tchar + "You're about to update a post! A series of prompts will ask you for update information.\n Continue? (y/n)"
+    choice = raw_input(tchar).lower()
+    if choice == "y":
+        print tchar + "Enter the Post ID (pid) of the post to update"
+        pid = raw_input(tchar)
+        print tchar + "What attribute do you want to update: title, author, or content?"
+        attr = raw_input(tchar).lower()
+        if attr == "title":
+            print tchar + "Enter the new title for Post with pid: " + str(pid)
+            title = raw_input(tchar + "\ttitle: ")
+            print tchar + "You are about to update Post with pid: " + str(pid) + " with the new title:\"" + title + "\". \nContinue? (y/n)"
+            choice = raw_input(tchar).lower()
+            if choice == "y":
+                print working
+                if manager.update_post_title(pid, title):
+                    print tchar + "Updated post. Use \"get post\" with pid: " + str(pid) + " to view changes."
+                    main()
+                else:
+                    print tchar + "Failed to update post."
+            elif choice == "n":
+                print tchar + "Okay, exiting \"update post\" command."
+                main()
+            else:
+                print tchar + "There was an error... Exiting \"update post\" command."
+                main()  
+        elif attr == "author":
+            print tchar + "Enter the new author for Post with pid: " + str(pid)
+            author = raw_input(tchar + "\tauthor: ")
+            print tchar + "You are about to update Post with pid: " + str(pid) + " with the new author:\"" + author + "\". \nContinue? (y/n)"
+            choice = raw_input(tchar).lower()
+            if choice == "y":
+                print working
+                if manager.update_post_author(pid, author):
+                    print tchar + "Updated post. Use \"get post\" with pid: " + str(pid) + " to view changes."
+                    main()
+                else:
+                    print tchar + "Failed to update post."
+            elif choice == "n":
+                print tchar + "Okay, exiting \"update post\" command."
+                main()
+            else:
+                print tchar + "There was an error... Exiting \"update post\" command."
+                main()  
+        elif attr == "content":
+            print tchar + "Enter the path to the markdown file containing the new post content for post with pid: " + str(pid)
+            path = raw_input(tchar + "\tpath to md: ")
+            f = open(path, 'r')
+            content = f.read()
+            print tchar + "You are about to update Post with pid: " + str(pid) + " with the new content.\nContinue? (y/n)"
+            choice = raw_input(tchar).lower()
+            if choice == "y":
+                print working
+                if manager.update_post_content(pid, content):
+                    f.close()
+                    print tchar + "Post content updated. Use \"get post\" with pid: " + str(pid) + " to view changes."
+                    main()
+                else:
+                    print thcar + "Failed to update content."
+                    main()
+            elif choice == "n":
+                print tchar + "Okay, exiting \"update post\" command."
+                main()
+            else:
+                print tchar + "There was an error... Exiting \"update post\" command."
+                main()
+        elif attr != "title" or attr != "author" or attr != "content":
+            print tchar + "Invalid attribute."
+            update_post()
+    elif choice == "n":
+        print tchar + "Okay, exiting \"update post\" command."
+        main()
+    else:
+        print tchar + "There was an error... Exiting \"update post\" command."
+        main()
 
-def update_author():
+def delete_post():
+    print tchar + "You are about to delete a post! This action can not be reversed. \nContinue? (y/n)"
+    choice = raw_input(tchar).lower()
+    if choice == "y":
+        print tchar + "Enter Post ID (pid) of post to delete"
+        pid = raw_input(tchar)
+        print tchar + "Are you sure you want to delete Post with pid:\"" + str(pid) + "\"? (y/n)"
+        choice = raw_input(tchar)
+        if choice == "y":
+            if manager.remove_post(pid):
+                print tchar + "Post with pid:\"" + str(pid) + "\" deleted."
+                main()
+            else:
+                print tchar + "Failed to delete post."
+                main()
+        elif choice == "n":
+            print tchar + "Okay, exiting \"delete post\" command."
+            main()
+        else:
+            print tchar + "There was an error... Exiting \"delete post\" command."
+            main()
 
-def update_content();
-
-'''
+    elif choice == "n":
+        print tchar + "Okay, exiting \"delete post\" command."
+        main()
+    else:
+        print tchar + "There was an error... Exiting \"delete post\" command."
+        main()
 
 def default():
     print tchar + "Unrecognized command, please try again."
@@ -110,8 +241,11 @@ def default():
 commands = {
         "get post": get_post,
         "get all": get_all,
-        "new post": new_post
+        "new post": new_post,
+        "update post": update_post,
+        "delete post": delete_post
         }
+
 def organize_post_data(post_data):
     post_as_string = ""
     print tchar +  "The content property is returned as inline markdown,\n" + tchar + "meaning escape characters (\\n, \\t, etc.) will be processed."
@@ -128,6 +262,7 @@ def main():
     cmd = raw_input(tchar)
     verify_input(cmd)
 
+os.system("clear")
 print tchar + "Starting CMS..."
 print tchar + "To exit, type 'exit'. To view more commands, type 'help'."
 print tchar + "Enter a command to begin."

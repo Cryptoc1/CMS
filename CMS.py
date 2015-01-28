@@ -280,5 +280,29 @@ class CMS:
             sys.exit(1)
             return False
 
+    def remove_post(self, pid):
+        if pid:
+            req = "DELETE FROM Posts WHERE pid=\"" + str(pid) + "\";"
+            try:
+                con = self.connect()
+                cur = con.cursor()
+                cur.execute(req)
+                con.commit()
+
+                return True
+            
+            except mdb.IntegrityError or mdb.Error, e:
+                print error_message + str(e)
+                sys.exit(1)
+                return False
+
+            finally:
+                if con:
+                    con.close()
+        else:
+            print error_message + no_args
+            sys.exit(1)
+            return False
+
     def version():
         print ver

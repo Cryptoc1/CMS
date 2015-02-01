@@ -3,19 +3,22 @@ from CMS import CMS
 import sys
 import os
 
+# Initiate the CMS Class
 manager = CMS(hostname="localhost", username="test", password="test123", db="CMS")
 
+# Misc strings
 tchar = ": "
 working = tchar + "Working..."
 
+# Checks if user input is an in-program command
 def verify_input(cmd):
     new_cmd = str(cmd).lower()
     if new_cmd == "exit":
         print tchar + "Exiting CMS..."
         sys.exit()
         os.system("clear")
-    elif new_cmd == "help":
-        print tchar + "\n" + tchar + "clear :: Clear the screen\n" + tchar + "exit :: Exit the program\n"  + tchar + "help :: Display this help text"
+    elif new_cmd == "help" or new_cmd == "?":
+        print tchar + "\n" + tchar + "clear :: Clear the screen\n" + tchar + "exit :: Exit the program\n"  + tchar + "help or ?:: Display this help text"
         print tchar + "get <arg>\n" + tchar + "\tall :: Display all entries\n" + tchar + "\tpost :: Display entry that matches specified Selection Query"
         print tchar + "new <arg>\n" + tchar + "\tpost :: Create a new entry"
         print tchar + "update <arg>\n" + tchar + "\tpost :: Update specified feilds of an entry"
@@ -43,6 +46,7 @@ def verify_input(cmd):
         else:
             commands[new_cmd]()
 
+# Interactively gets a post using CMS.get_post_by_*(), then prints formatted results
 def get_post():
     print tchar + "Select by pid, title, or author?"
     method = str(raw_input(tchar)).lower()
@@ -76,6 +80,7 @@ def get_post():
         print "Invalid Selection Method."
         get_post()
 
+# Prints all post entries in the Post table with JSON like formatting
 def get_all():
     count = manager.get_entry_count()
     if count == 1:
@@ -94,6 +99,7 @@ def get_all():
         print tchar + "There was an error... Exiting \"get all\" command."
         main()
 
+# Interactively creates a new post using CMS.new_post()
 def new_post():
     print tchar + "Your are about to create a new post! A series of prompts are going to ask you to enter some information.\n Continue? (y/n)"
     choice = raw_input(tchar).lower()
@@ -128,6 +134,7 @@ def new_post():
         print tchar + "There was an error... Exiting \"new post\" command."
         main()
 
+# Interactively updates specified values of a post using CMS.update_post_*()
 def update_post():
     print tchar + "You're about to update a post! A series of prompts will ask you for update information.\n Continue? (y/n)"
     choice = raw_input(tchar).lower()
@@ -204,6 +211,7 @@ def update_post():
         print tchar + "There was an error... Exiting \"update post\" command."
         main()
 
+# Interactively removes a specified post entry
 def delete_post():
     print tchar + "You are about to delete a post! This action can not be reversed. \nContinue? (y/n)"
     choice = raw_input(tchar).lower()
@@ -232,10 +240,12 @@ def delete_post():
         print tchar + "There was an error... Exiting \"delete post\" command."
         main()
 
+# Called whenever an unrecgonized command is used
 def default():
     print tchar + "Unrecognized command, please try again."
     main()
 
+# Disctionary of possible commands, used for a sly C-Style switch/case
 commands = {
         "get post": get_post,
         "get all": get_all,
@@ -244,6 +254,7 @@ commands = {
         "delete post": delete_post
         }
 
+# Formats a post entry into a JSON like formatted string for printing on the screen
 def organize_post_data(post_data):
     post_as_string = ""
     print tchar +  "The content property is returned as inline markdown,\n" + tchar + "meaning escape characters (\\n, \\t, etc.) will be processed."
@@ -254,13 +265,14 @@ def organize_post_data(post_data):
         post_as_string = "{\n\t \"pid\": " + str(post_data["pid"]) + "\n\t \"title\": \"" + post_data["title"] + "\"\n\t \"author\": \"" + post_data["author"] + "\"\n\t \"content\": \"" + post_data["content"]+ "\"\n}"
     return post_as_string
 
-
+# Program 'loop'
 def main():
     cmd = raw_input(tchar)
     verify_input(cmd)
 
+# Starting the program... Now!
 os.system("clear")
 print tchar + "Starting CMS..."
-print tchar + "To exit, type 'exit'. To view more commands, type 'help'."
+print tchar + "To exit, type 'exit'. To view more commands, type 'help' or '?'."
 print tchar + "Enter a command to begin."
 main()
